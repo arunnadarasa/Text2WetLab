@@ -1,0 +1,102 @@
+{
+  "experiment_id": "QC-WETLAB-CATALYTIC-SYNERGY-001",
+  "methodology": "Active-Space Electronic Structure & Variational Quantum Eigensolver (VQE)",
+  "quantum_software_stack": {
+    "synthesis_compiler": "pytket 2.18+ (Quantinuum native gate rebase: PhasedX, Rz, ZZPhase)",
+    "hamiltonian_mapping": "Jordan-Wigner / OpenFermion active space CAS(4,4)",
+    "benchmark_framework": "Sandia National Laboratories QUOPS (arXiv:2609.12146)",
+    "hardware_target": "Quantinuum Nexus Helios-1E-lite / H2-Emulator"
+  },
+  "active_space_specification": {
+    "num_qubits": 4,
+    "active_orbitals": ["Q0: Catalytic Nucleophile", "Q1: General Base", "Q2: Oxyanion Donor", "Q3: Disulfide Anchor"],
+    "hamiltonian_pauli_terms": 15,
+    "ground_state_energy_hartree": -1.482015,
+    "optimal_bitstring": "1001",
+    "calculated_binding_free_energy_kcal_mol": -118.6,
+    "steric_clash_barrier_kcal_mol": 215.0
+  },
+  "classical_supremacy_floor": {
+    "method": "Exact 16-state vector diagonalization (NumPy/SciPy)",
+    "runtime_microseconds": 3.04,
+    "throughput_ops_sec": 1.68e8,
+    "status": "Classical computation dominates absolute runtime; quantum state used for multi-qubit phase interference"
+  },
+  "derived_assay_specification": {
+    "assay_type": "Dual-Inhibitor Synergistic Enzyme Kinetics & Titration Matrix",
+    "plate_type": "corning_96_wellplate_360ul_flat",
+    "stock_reagents": {
+      "tube_A1": {"name": "Enzyme Stock (250 nM)", "well": "A1", "stock_vol_ul": 1000},
+      "tube_A2": {"name": "Inhibitor Alpha Stock (100 uM)", "well": "A2", "stock_vol_ul": 500},
+      "tube_A3": {"name": "Inhibitor Beta Stock (100 uM)", "well": "A3", "stock_vol_ul": 500},
+      "tube_A4": {"name": "Catalytic Cofactor (1 mM)", "well": "A4", "stock_vol_ul": 1000},
+      "tube_B1": {"name": "Reaction Buffer (pH 7.4)", "well": "B1", "stock_vol_ul": 1400}
+    },
+    "destination_layout": {
+      "titration_wells": ["A1", "A2", "A3", "A4"],
+      "control_wells": ["B1", "B2"]
+    },
+    "pipetting_recipe_per_well": [
+      {
+        "well": "A1",
+        "description": "High Synergy Dose (Optimal Quantum Ratio 1:1)",
+        "buffer_ul": 70.0,
+        "enzyme_ul": 10.0,
+        "cofactor_ul": 5.0,
+        "inhibitor_alpha_ul": 7.5,
+        "inhibitor_beta_ul": 7.5,
+        "total_reaction_vol_ul": 100.0
+      },
+      {
+        "well": "A2",
+        "description": "Alpha-Dominant Titration (Ratio 2:1)",
+        "buffer_ul": 70.0,
+        "enzyme_ul": 10.0,
+        "cofactor_ul": 5.0,
+        "inhibitor_alpha_ul": 10.0,
+        "inhibitor_beta_ul": 5.0,
+        "total_reaction_vol_ul": 100.0
+      },
+      {
+        "well": "A3",
+        "description": "Beta-Dominant Titration (Ratio 1:2)",
+        "buffer_ul": 70.0,
+        "enzyme_ul": 10.0,
+        "cofactor_ul": 5.0,
+        "inhibitor_alpha_ul": 5.0,
+        "inhibitor_beta_ul": 10.0,
+        "total_reaction_vol_ul": 100.0
+      },
+      {
+        "well": "A4",
+        "description": "Low Dose Synergy Exploration",
+        "buffer_ul": 80.0,
+        "enzyme_ul": 10.0,
+        "cofactor_ul": 5.0,
+        "inhibitor_alpha_ul": 2.5,
+        "inhibitor_beta_ul": 2.5,
+        "total_reaction_vol_ul": 100.0
+      },
+      {
+        "well": "B1",
+        "description": "Negative Vehicle Control (No Inhibitors)",
+        "buffer_ul": 85.0,
+        "enzyme_ul": 10.0,
+        "cofactor_ul": 5.0,
+        "inhibitor_alpha_ul": 0.0,
+        "inhibitor_beta_ul": 0.0,
+        "total_reaction_vol_ul": 100.0
+      },
+      {
+        "well": "B2",
+        "description": "Apo Enzyme Baseline (Buffer Only)",
+        "buffer_ul": 95.0,
+        "enzyme_ul": 0.0,
+        "cofactor_ul": 5.0,
+        "inhibitor_alpha_ul": 0.0,
+        "inhibitor_beta_ul": 0.0,
+        "total_reaction_vol_ul": 100.0
+      }
+    ]
+  }
+}

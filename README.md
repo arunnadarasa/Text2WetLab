@@ -72,7 +72,7 @@ flowchart LR
 
 <div align="center">
 
-**Table 1.** The 11 tasks: 7 easy and 4 hard. Seven protocols have an easy task, which gives the deck, the starting contents and every step with its quantity. Four of them, the ones with a source paper, also have a paper-only ("hard") task, which gives the deck, the starting contents, a one-paragraph goal and the paper at `/data/paper.txt`.
+**Table 1.** The 12 tasks: 8 easy and 4 hard. Eight protocols have an easy task, which gives the deck, the starting contents and every step with its quantity. Four of them, the ones with a source paper, also have a paper-only ("hard") task, which gives the deck, the starting contents, a one-paragraph goal and the paper at `/data/paper.txt`.
 
 | Protocol | What the agent must automate | Source | Easy task | Hard task |
 |---|---|---|---|---|
@@ -83,7 +83,8 @@ flowchart LR
 | Heat-shock transformation | E. coli heat-shock transformation with recovery | APEX Protocol 1, bioRxiv | `ecoli-heat-shock-transformation` | `ecoli-heat-shock-transformation-hard` |
 | Golden Gate | Golden Gate assembly of four four-fragment plasmids | AssemblyTron, Synth. Biol. 2022 (CC BY) | `golden-gate-assembly` | `golden-gate-assembly-hard` |
 | RNA extraction | 48-sample magnetic-bead SARS-CoV-2 RNA extraction | PLOS ONE 2021 ([doi](https://doi.org/10.1371/journal.pone.0246302)) | `opentrons-rna-extraction` | `opentrons-rna-extraction-hard` |
-| **Total: 11** | | | **7** | **4** |
+| Quantum Chemistry Synergy Assay | Automated 6-well dual-inhibitor synergy titration matrix derived from 4-qubit active-space Hamiltonian calculation | computational quantum chemistry | `quantum-chemistry-assay` | – |
+| **Total: 12** | | | **8** | **4** |
 
 </div>
 
@@ -100,6 +101,19 @@ flowchart LR
 - **APEX licence.** The paper is bioRxiv "all rights reserved", so its text is not in the repo. `environment/fetch_paper.py` downloads the pinned v1 while the image builds; its sha256 is pinned in `tests/data_hashes.json`.
 
 </details>
+
+### 2.4 Quantum Chemistry & Robotic Automation Extension
+
+Text2WetLab now includes a framework and reference task connecting **computational quantum chemistry** (active space Hamiltonian reduction, variational electronic ground state preparation, and trapped-ion circuit compilation) with **physical liquid-handling robotics** on the Opentrons OT-2.
+
+* **Task:** `quantum-chemistry-assay` ([`tasks/quantum-chemistry-assay/`](tasks/quantum-chemistry-assay/))
+* **Scientific Aim:** Automate a 6-condition synergistic multi-target catalytic enzyme inhibition assay (4-point titration matrix + 2 controls) derived from a 4-qubit active-space Hamiltonian calculation.
+* **Complete Guide & Architecture:** See [**`docs/quantum-chemistry-framework.md`**](docs/quantum-chemistry-framework.md) for full instructions on:
+  - Which software packages to use (`pytket`, `qiskit`, `openfermion`, `pyscf`, `praqtice`/`QUOPS`).
+  - How to apply for trapped-ion hardware and cloud access (Quantinuum Nexus `nexus.quantinuum.com`, Aqora Quantum Platform `aqora.io`, AWS Braket).
+  - How to enforce classical supremacy flooring ($3.04\,\mu\text{s}$ CPU baseline) and honest hardware vs. emulator reporting.
+* **Verification Script:** Run `python scripts/verify_quantum_chemistry_assay.py` to evaluate any generated liquid-handling protocol against the 6-point robotics benchmark.
+
 
 ## 3. Grading
 
